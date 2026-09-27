@@ -4,593 +4,505 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>Yasmina Abdelkarim | Flutter Developer</title>
-<style>
-  * { margin: 0; padding: 0; box-sizing: border-box; }
-
-  :root {
-    --bg: #0a0a0f;
-    --bg2: #12121a;
-    --purple: #a855f7;
-    --purple-light: #c084fc;
-    --purple-dark: #7e22ce;
-    --text: #e5e5e5;
-    --text-dim: #9ca3af;
-  }
-
-  html { scroll-behavior: smooth; }
-
-  body {
-    font-family: 'Segoe UI', system-ui, sans-serif;
-    background: var(--bg);
-    color: var(--text);
-    overflow-x: hidden;
-    line-height: 1.6;
-  }
-
-  /* ===== Animated Background ===== */
-  .bg-anim {
-    position: fixed;
-    inset: 0;
-    z-index: -1;
-    background: radial-gradient(circle at 20% 20%, rgba(168,85,247,0.15), transparent 40%),
-                radial-gradient(circle at 80% 80%, rgba(126,34,206,0.15), transparent 40%);
-    animation: bgMove 12s ease-in-out infinite alternate;
-  }
-  @keyframes bgMove {
-    0% { transform: scale(1) rotate(0deg); }
-    100% { transform: scale(1.1) rotate(5deg); }
-  }
-
-  /* ===== Navbar ===== */
-  nav {
-    position: fixed;
-    top: 0; left: 0; right: 0;
-    padding: 1.2rem 5%;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    background: rgba(10,10,15,0.7);
-    backdrop-filter: blur(10px);
-    z-index: 100;
-    border-bottom: 1px solid rgba(168,85,247,0.1);
-  }
-  .logo {
-    font-size: 1.4rem;
-    font-weight: 700;
-    background: linear-gradient(135deg, var(--purple-light), var(--purple));
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-  }
-  nav ul {
-    display: flex;
-    gap: 2rem;
-    list-style: none;
-  }
-  nav a {
-    color: var(--text-dim);
-    text-decoration: none;
-    font-size: 0.95rem;
-    transition: color 0.3s;
-    position: relative;
-  }
-  nav a:hover { color: var(--purple-light); }
-  nav a::after {
-    content: '';
-    position: absolute;
-    bottom: -5px; left: 0;
-    width: 0; height: 2px;
-    background: var(--purple);
-    transition: width 0.3s;
-  }
-  nav a:hover::after { width: 100%; }
-
-  /* ===== Hero ===== */
-  .hero {
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-    padding: 0 5%;
-    position: relative;
-  }
-  .hero-avatar {
-    width: 180px;
-    height: 180px;
-    border-radius: 50%;
-    background: linear-gradient(135deg, var(--purple-dark), var(--purple-light));
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    overflow: hidden;
-    margin-bottom: 2rem;
-    box-shadow: 0 0 60px rgba(168,85,247,0.5);
-    animation: floatAvatar 4s ease-in-out infinite, glowPulse 3s ease-in-out infinite;
-    border: 3px solid var(--purple);
-    padding: 5px;
-  }
-  .hero-avatar img {
-    width: 100%;
-    height: 100%;
-    border-radius: 50%;
-    object-fit: cover;
-    object-position: center 20%;
-  }
-  @keyframes floatAvatar {
-    0%, 100% { transform: translateY(0); }
-    50% { transform: translateY(-15px); }
-  }
-  @keyframes glowPulse {
-    0%, 100% { box-shadow: 0 0 60px rgba(168,85,247,0.5); }
-    50% { box-shadow: 0 0 90px rgba(168,85,247,0.8); }
-  }
-
-  .hero h1 {
-    font-size: clamp(2rem, 6vw, 4rem);
-    font-weight: 800;
-    margin-bottom: 1rem;
-    background: linear-gradient(135deg, #fff 30%, var(--purple-light));
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-    opacity: 0;
-    animation: fadeUp 1s 0.3s forwards;
-  }
-
-  .typewriter {
-    font-size: clamp(1.2rem, 3vw, 1.8rem);
-    color: var(--purple-light);
-    margin-bottom: 2rem;
-    height: 2.5rem;
-    opacity: 0;
-    animation: fadeUp 1s 0.6s forwards;
-  }
-  .typewriter::after {
-    content: '|';
-    animation: blink 1s infinite;
-    color: var(--purple);
-  }
-  @keyframes blink { 50% { opacity: 0; } }
-
-  @keyframes fadeUp {
-    from { opacity: 0; transform: translateY(30px); }
-    to { opacity: 1; transform: translateY(0); }
-  }
-
-  .hero-btns {
-    display: flex;
-    gap: 1rem;
-    flex-wrap: wrap;
-    justify-content: center;
-    opacity: 0;
-    animation: fadeUp 1s 1s forwards;
-  }
-  .btn {
-    padding: 0.9rem 2rem;
-    border-radius: 50px;
-    text-decoration: none;
-    font-weight: 600;
-    font-size: 1rem;
-    transition: all 0.3s;
-    border: 2px solid transparent;
-  }
-  .btn-primary {
-    background: linear-gradient(135deg, var(--purple), var(--purple-dark));
-    color: white;
-    box-shadow: 0 5px 25px rgba(168,85,247,0.4);
-  }
-  .btn-primary:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 10px 35px rgba(168,85,247,0.7);
-  }
-  .btn-outline {
-    border-color: var(--purple);
-    color: var(--purple-light);
-  }
-  .btn-outline:hover {
-    background: var(--purple);
-    color: white;
-    transform: translateY(-3px);
-  }
-
-  /* ===== Sections ===== */
-  section {
-    padding: 6rem 5%;
-    max-width: 1200px;
-    margin: 0 auto;
-  }
-
-  .section-title {
-    font-size: clamp(1.8rem, 4vw, 2.5rem);
-    margin-bottom: 3rem;
-    text-align: center;
-    position: relative;
-    display: block;
-    width: 100%;
-    left: 0;
-    transform: none;
-  }
-  .section-title::after {
-    content: '';
-    position: absolute;
-    bottom: -15px; left: 50%;
-    transform: translateX(-50%);
-    width: 60px; height: 4px;
-    background: linear-gradient(90deg, var(--purple), var(--purple-light));
-    border-radius: 2px;
-  }
-
-  /* ===== Reveal Animation ===== */
-  .reveal {
-    opacity: 0;
-    transform: translateY(40px);
-    transition: all 0.8s ease;
-  }
-  .reveal.active {
-    opacity: 1;
-    transform: translateY(0);
-  }
-
-  /* ===== About ===== */
-  .about-text {
-    max-width: 800px;
-    margin: 0 auto;
-    text-align: center;
-    font-size: 1.1rem;
-    color: var(--text-dim);
-    line-height: 1.9;
-  }
-
-  /* ===== Skills ===== */
-  .skills-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-    gap: 1.5rem;
-    max-width: 900px;
-    margin: 0 auto;
-  }
-  .skill-card {
-    background: var(--bg2);
-    padding: 1.5rem;
-    border-radius: 16px;
-    text-align: center;
-    border: 1px solid rgba(168,85,247,0.2);
-    transition: all 0.3s;
-    font-weight: 600;
-  }
-  .skill-card:hover {
-    transform: translateY(-8px);
-    border-color: var(--purple);
-    box-shadow: 0 10px 30px rgba(168,85,247,0.3);
-  }
-  .skill-icon {
-    font-size: 2rem;
-    margin-bottom: 0.5rem;
-  }
-
-  /* ===== Projects ===== */
-  .projects-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 2rem;
-  }
-  .project-card {
-    background: linear-gradient(145deg, var(--bg2), var(--bg));
-    border-radius: 20px;
-    padding: 2rem;
-    border: 1px solid rgba(168,85,247,0.2);
-    position: relative;
-    overflow: hidden;
-    transition: all 0.4s;
-  }
-  .project-card::before {
-    content: '';
-    position: absolute;
-    top: 0; left: -100%;
-    width: 100%; height: 100%;
-    background: linear-gradient(90deg, transparent, rgba(168,85,247,0.1), transparent);
-    transition: left 0.6s;
-  }
-  .project-card:hover::before { left: 100%; }
-  .project-card:hover {
-    transform: translateY(-10px);
-    border-color: var(--purple);
-    box-shadow: 0 20px 50px rgba(168,85,247,0.3);
-  }
-  .project-icon {
-    font-size: 2.5rem;
-    margin-bottom: 1rem;
-  }
-  .project-card h3 {
-    font-size: 1.3rem;
-    margin-bottom: 0.8rem;
-    color: var(--purple-light);
-  }
-  .project-card p {
-    color: var(--text-dim);
-    font-size: 0.95rem;
-    margin-bottom: 1.5rem;
-  }
-  .project-tags {
-    display: flex;
-    gap: 0.5rem;
-    flex-wrap: wrap;
-  }
-  .tag {
-    background: rgba(168,85,247,0.15);
-    color: var(--purple-light);
-    padding: 0.3rem 0.8rem;
-    border-radius: 50px;
-    font-size: 0.8rem;
-    border: 1px solid rgba(168,85,247,0.3);
-  }
-
-  /* ===== Contact ===== */
-  .contact-links {
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-    max-width: 500px;
-    margin: 0 auto;
-  }
-  .contact-link {
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-    padding: 1.2rem 1.5rem;
-    background: var(--bg2);
-    border-radius: 16px;
-    text-decoration: none;
-    color: var(--text);
-    border: 1px solid rgba(168,85,247,0.2);
-    transition: all 0.3s;
-  }
-  .contact-link:hover {
-    border-color: var(--purple);
-    transform: translateX(10px);
-    box-shadow: 0 10px 30px rgba(168,85,247,0.2);
-  }
-  .contact-link .icon {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 1.5rem;
-  }
-
-  /* ===== Contact Icons (SVG) ===== */
-  .contact-link svg {
-    width: 32px;
-    height: 32px;
-    flex-shrink: 0;
-    transition: all 0.3s;
-  }
-  .contact-link:hover svg {
-    transform: scale(1.15);
-  }
-  .icon-gmail svg { fill: #EA4335; }
-  .icon-github svg { fill: #ffffff; }
-  .icon-linkedin svg { fill: #0A66C2; }
-
-  /* ===== Footer ===== */
-  footer {
-    text-align: center;
-    padding: 2rem;
-    color: var(--text-dim);
-    font-size: 0.9rem;
-    border-top: 1px solid rgba(168,85,247,0.1);
-  }
-
-  /* ===== Mobile ===== */
-  @media (max-width: 768px) {
-    nav ul { gap: 1rem; font-size: 0.85rem; }
-    nav a { font-size: 0.85rem; }
-    section { padding: 4rem 5%; }
-    .hero-avatar { width: 150px; height: 150px; }
-    .contact-link svg { width: 26px; height: 26px; }
-  }
-</style>
+<link rel="stylesheet" href="style.css">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 </head>
 <body>
 
-<div class="bg-anim"></div>
+<!-- ===== Particles Background ===== -->
+<div id="particles-js"></div>
 
-<!-- NAVBAR -->
-<nav>
-  <div class="logo">&lt;Yasmina/&gt;</div>
-  <ul>
-    <li><a href="#about">About</a></li>
-    <li><a href="#skills">Skills</a></li>
-    <li><a href="#projects">Projects</a></li>
-    <li><a href="#contact">Contact</a></li>
-  </ul>
+<!-- ===== Navbar ===== -->
+<nav id="navbar">
+  <div class="nav-container">
+    <a href="#home" class="logo">&lt;YA/&gt;</a>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="#home" class="active">Home</a></li>
+      <li><a href="#about">About</a></li>
+      <li><a href="#education">Education</a></li>
+      <li><a href="#experience">Experience</a></li>
+      <li><a href="#skills">Skills</a></li>
+      <li><a href="#projects">Projects</a></li>
+      <li><a href="#testimonials">Testimonials</a></li>
+      <li><a href="#services">Services</a></li>
+      <li><a href="#contact">Get In Touch</a></li>
+    </ul>
+    <div class="nav-actions">
+      <button id="themeToggle" class="theme-toggle" aria-label="Toggle theme">
+        <i class="fas fa-moon"></i>
+      </button>
+      <a href="Yasmina_Abdelkarim_CV.pdf" target="_blank" class="cv-btn">
+        <i class="fas fa-download"></i> CV
+      </a>
+      <div class="menu-toggle" id="menuToggle">
+        <i class="fas fa-bars"></i>
+      </div>
+    </div>
+  </div>
 </nav>
 
-<!-- HERO -->
-<section class="hero">
-  <div class="hero-avatar">
-    <img src="yasmina.jpg" alt="Yasmina Abdelkarim" />
+<!-- ===== Hero Section ===== -->
+<section id="home" class="hero">
+  <div class="hero-container">
+    <div class="hero-content">
+      <p class="hero-greeting">Hello, I'm</p>
+      <h1 class="hero-name">Yasmina <span>Abdelkarim</span></h1>
+      <h2 class="hero-title">
+        <span id="typewriter"></span>
+        <span class="cursor">|</span>
+      </h2>
+      <p class="hero-desc">
+        Flutter Developer specialized in building high-performance mobile applications with exceptional UX. I develop cross-platform apps for Android and iOS with clean, scalable code.
+      </p>
+      <div class="hero-btns">
+        <a href="#contact" class="btn btn-primary">
+          <i class="fas fa-paper-plane"></i> Hire Me
+        </a>
+        <a href="#projects" class="btn btn-outline">
+          View Projects <i class="fas fa-arrow-right"></i>
+        </a>
+      </div>
+      <div class="hero-socials">
+        <a href="https://github.com/Yasmina504" target="_blank" aria-label="GitHub">
+          <i class="fab fa-github"></i>
+        </a>
+        <a href="https://linkedin.com/in/yasmina-abdelkarim" target="_blank" aria-label="LinkedIn">
+          <i class="fab fa-linkedin-in"></i>
+        </a>
+        <a href="mailto:yasminaabdelkarim@gmail.com" aria-label="Email">
+          <i class="fas fa-envelope"></i>
+        </a>
+      </div>
+    </div>
+    <div class="hero-image">
+      <div class="hero-avatar">
+        <img src="yasmina.jpg" alt="Yasmina Abdelkarim" />
+      </div>
+    </div>
   </div>
-  <h1>Yasmina Abdelkarim</h1>
-  <div class="typewriter" id="typewriter"></div>
-  <div class="hero-btns">
-    <a href="#projects" class="btn btn-primary">View My Work</a>
-    <a href="https://github.com/Yasmina504" target="_blank" class="btn btn-outline">GitHub</a>
+  <a href="#about" class="scroll-down">
+    <i class="fas fa-chevron-down"></i>
+  </a>
+</section>
+
+<!-- ===== About Section ===== -->
+<section id="about" class="section">
+  <h2 class="section-title reveal">About <span>Me</span></h2>
+  <div class="about-container">
+    <div class="about-image reveal">
+      <img src="yasmina.jpg" alt="Yasmina Abdelkarim" />
+    </div>
+    <div class="about-content reveal">
+      <h3>Flutter Developer & CS Student</h3>
+      <p>
+        I'm <strong>Yasmina Abdelkarim</strong>, a Flutter Developer specialized in building seamless, high-performance mobile applications with exceptional user experience. I develop cross-platform apps for both Android and iOS, with a strong focus on clean, scalable code.
+      </p>
+      <p>
+        I'm currently training at <strong>NTI (National Telecommunication Institute)</strong> and studying Computer Science at <strong>Higher Technological Institute</strong>. My work is proven through <strong>6+ live projects</strong> published on GitHub.
+      </p>
+      <div class="stats">
+        <div class="stat-card">
+          <i class="fas fa-code"></i>
+          <h4>1+</h4>
+          <p>Years Learning</p>
+        </div>
+        <div class="stat-card">
+          <i class="fas fa-rocket"></i>
+          <h4>6+</h4>
+          <p>Projects Done</p>
+        </div>
+        <div class="stat-card">
+          <i class="fas fa-graduation-cap"></i>
+          <h4>1</h4>
+          <p>Training Program</p>
+        </div>
+        <div class="stat-card">
+          <i class="fas fa-mobile-alt"></i>
+          <h4>Flutter</h4>
+          <p>Specialist</p>
+        </div>
+      </div>
+    </div>
   </div>
 </section>
 
-<!-- ABOUT -->
-<section id="about">
-  <h2 class="section-title reveal">About Me</h2>
-  <p class="about-text reveal">
-    I'm a Flutter Developer specialized in building seamless, high-performance mobile applications with exceptional user experience. I develop cross-platform apps for both Android and iOS, with a strong focus on clean, scalable code. I'm driven by turning ideas into real digital products that make an impact.
-  </p>
-</section>
-
-<!-- SKILLS -->
-<section id="skills">
-  <h2 class="section-title reveal">Skills</h2>
-  <div class="skills-grid">
-    <div class="skill-card reveal"><div class="skill-icon">💙</div>Flutter</div>
-    <div class="skill-card reveal"><div class="skill-icon">🎯</div>Dart</div>
-    <div class="skill-card reveal"><div class="skill-icon">🔥</div>Firebase</div>
-    <div class="skill-card reveal"><div class="skill-icon">🌐</div>REST APIs</div>
-    <div class="skill-card reveal"><div class="skill-icon">📱</div>Android & iOS</div>
-    <div class="skill-card reveal"><div class="skill-icon">🔧</div>Git & GitHub</div>
+<!-- ===== Education Section ===== -->
+<section id="education" class="section">
+  <h2 class="section-title reveal">My <span>Education</span></h2>
+  <div class="education-container">
+    <div class="education-card reveal">
+      <div class="edu-icon"><i class="fas fa-graduation-cap"></i></div>
+      <div class="edu-content">
+        <h3>Bachelor's Degree in Computer Science</h3>
+        <p class="edu-school">Higher Technological Institute — 10th of Ramadan</p>
+        <p class="edu-desc">Currently in 4th year, studying Computer Science fundamentals including data structures, algorithms, OOP, databases, and software engineering.</p>
+        <div class="edu-meta">
+          <span class="edu-badge">🎓 Expected: 2027</span>
+          <span class="edu-badge">📚 4th Year</span>
+        </div>
+      </div>
+    </div>
+    <div class="education-card reveal">
+      <div class="edu-icon"><i class="fas fa-laptop-code"></i></div>
+      <div class="edu-content">
+        <h3>Flutter Development Training</h3>
+        <p class="edu-school">NTI — National Telecommunication Institute</p>
+        <p class="edu-desc">Hands-on Flutter training covering cross-platform mobile development, REST APIs, Firebase, and modern UI/UX practices.</p>
+        <div class="edu-meta">
+          <span class="edu-badge">2025 — Present</span>
+        </div>
+      </div>
+    </div>
   </div>
 </section>
 
-<!-- PROJECTS -->
-<section id="projects">
-  <h2 class="section-title reveal">Projects</h2>
+<!-- ===== Experience Section ===== -->
+<section id="experience" class="section">
+  <h2 class="section-title reveal">My <span>Experience</span></h2>
+  <div class="timeline">
+    <div class="timeline-item reveal">
+      <div class="timeline-dot"></div>
+      <div class="timeline-content">
+        <h3>Flutter Developer Trainee</h3>
+        <p class="timeline-company">NTI — National Telecommunication Institute</p>
+        <p class="timeline-desc">Completed hands-on Flutter training covering cross-platform mobile development, REST API integration, Firebase, local storage, and modern UI/UX practices.</p>
+        <span class="timeline-date">2025 — Present</span>
+      </div>
+    </div>
+    <div class="timeline-item reveal">
+      <div class="timeline-dot"></div>
+      <div class="timeline-content">
+        <h3>Self-Directed Flutter Projects</h3>
+        <p class="timeline-company">Personal Projects — GitHub</p>
+        <p class="timeline-desc">Built and published 6+ Flutter projects on GitHub — from REST API news readers to full task managers.</p>
+        <span class="timeline-date">2024 — Present</span>
+      </div>
+    </div>
+    <div class="timeline-item reveal">
+      <div class="timeline-dot"></div>
+      <div class="timeline-content">
+        <h3>Computer Science Student</h3>
+        <p class="timeline-company">Higher Technological Institute</p>
+        <p class="timeline-desc">Studying CS fundamentals including data structures, algorithms, OOP, and software engineering.</p>
+        <span class="timeline-date">2022 — 2027 (Expected)</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== Skills Section ===== -->
+<section id="skills" class="section">
+  <h2 class="section-title reveal">My <span>Skills</span></h2>
+  <div class="skills-container">
+    <div class="skills-card reveal">
+      <h3><i class="fas fa-mobile-alt"></i> Flutter Development</h3>
+      <div class="skill-bar">
+        <div class="skill-info"><span>Flutter</span><span>95%</span></div>
+        <div class="skill-progress"><div class="skill-fill" data-width="95"></div></div>
+      </div>
+      <div class="skill-bar">
+        <div class="skill-info"><span>Dart</span><span>93%</span></div>
+        <div class="skill-progress"><div class="skill-fill" data-width="93"></div></div>
+      </div>
+      <div class="skill-bar">
+        <div class="skill-info"><span>UI/UX Design</span><span>90%</span></div>
+        <div class="skill-progress"><div class="skill-fill" data-width="90"></div></div>
+      </div>
+      <div class="skill-bar">
+        <div class="skill-info"><span>Clean Architecture</span><span>90%</span></div>
+        <div class="skill-progress"><div class="skill-fill" data-width="90"></div></div>
+      </div>
+    </div>
+    <div class="skills-card reveal">
+      <h3><i class="fas fa-database"></i> Backend & Data</h3>
+      <div class="skill-bar">
+        <div class="skill-info"><span>REST APIs</span><span>92%</span></div>
+        <div class="skill-progress"><div class="skill-fill" data-width="92"></div></div>
+      </div>
+      <div class="skill-bar">
+        <div class="skill-info"><span>Firebase</span><span>90%</span></div>
+        <div class="skill-progress"><div class="skill-fill" data-width="90"></div></div>
+      </div>
+      <div class="skill-bar">
+        <div class="skill-info"><span>Local Storage (Hive/SQLite)</span><span>90%</span></div>
+        <div class="skill-progress"><div class="skill-fill" data-width="90"></div></div>
+      </div>
+      <div class="skill-bar">
+        <div class="skill-info"><span>Git & GitHub</span><span>90%</span></div>
+        <div class="skill-progress"><div class="skill-fill" data-width="90"></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== Projects Section ===== -->
+<section id="projects" class="section">
+  <h2 class="section-title reveal">Featured <span>Projects</span></h2>
   <div class="projects-grid">
 
     <div class="project-card reveal">
-      <div class="project-icon">📰</div>
-      <h3>News Application</h3>
-      <p>A Flutter news app that fetches the latest articles via REST API with a clean, modern UI.</p>
-      <div class="project-tags">
-        <span class="tag">Flutter</span>
-        <span class="tag">REST API</span>
-        <span class="tag">Dart</span>
+      <div class="project-image">
+        <img src="yasmina.jpg" alt="News App" />
+      </div>
+      <div class="project-info">
+        <h3>News Flutter App</h3>
+        <p>Flutter news reader fetching live articles via REST API with modern, responsive UI.</p>
+        <div class="project-tags">
+          <span>Flutter</span><span>REST API</span><span>JSON</span>
+        </div>
+        <a href="https://github.com/Yasmina504/News-Flutter-APPlication-" target="_blank" class="project-link">
+          <i class="fab fa-github"></i> View on GitHub
+        </a>
       </div>
     </div>
 
     <div class="project-card reveal">
-      <div class="project-icon">✅</div>
-      <h3>Full TODO App</h3>
-      <p>A complete task management app with add, edit, delete, and local storage features.</p>
-      <div class="project-tags">
-        <span class="tag">Flutter</span>
-        <span class="tag">Local Storage</span>
-        <span class="tag">Dart</span>
+      <div class="project-image">
+        <img src="yasmina.jpg" alt="E-commerce App" />
+      </div>
+      <div class="project-info">
+        <h3>E-commerce App</h3>
+        <p>Full Flutter shopping app with product listing, cart, and API integration.</p>
+        <div class="project-tags">
+          <span>Flutter</span><span>APIs</span><span>UI/UX</span>
+        </div>
+        <a href="https://github.com/Yasmina504/Ecommerce--APIS" target="_blank" class="project-link">
+          <i class="fab fa-github"></i> View on GitHub
+        </a>
       </div>
     </div>
 
     <div class="project-card reveal">
-      <div class="project-icon">🛒</div>
-      <h3>E-commerce App</h3>
-      <p>A Flutter shopping app connected to APIs, with product listing and cart functionality.</p>
-      <div class="project-tags">
-        <span class="tag">Flutter</span>
-        <span class="tag">APIs</span>
-        <span class="tag">Dart</span>
+      <div class="project-image">
+        <img src="yasmina.jpg" alt="TODO App" />
+      </div>
+      <div class="project-info">
+        <h3>Full TODO App</h3>
+        <p>Complete task manager with add, edit, delete, and local storage features.</p>
+        <div class="project-tags">
+          <span>Flutter</span><span>Local Storage</span><span>Dart</span>
+        </div>
+        <a href="https://github.com/Yasmina504/full-TODO-APP" target="_blank" class="project-link">
+          <i class="fab fa-github"></i> View on GitHub
+        </a>
       </div>
     </div>
 
     <div class="project-card reveal">
-      <div class="project-icon">🔌</div>
-      <h3>APIs Project</h3>
-      <p>Practical implementation of RESTful API integration in Flutter with error handling.</p>
-      <div class="project-tags">
-        <span class="tag">Flutter</span>
-        <span class="tag">HTTP</span>
-        <span class="tag">JSON</span>
+      <div class="project-image">
+        <img src="yasmina.jpg" alt="APIs Project" />
+      </div>
+      <div class="project-info">
+        <h3>APIs Integration Project</h3>
+        <p>Practical RESTful API integration in Flutter with proper error handling.</p>
+        <div class="project-tags">
+          <span>Flutter</span><span>HTTP</span><span>JSON</span>
+        </div>
+        <a href="https://github.com/Yasmina504/APIS" target="_blank" class="project-link">
+          <i class="fab fa-github"></i> View on GitHub
+        </a>
       </div>
     </div>
 
     <div class="project-card reveal">
-      <div class="project-icon">📝</div>
-      <h3>TODO Flutter App</h3>
-      <p>A simple and elegant task manager built with Flutter following clean UI principles.</p>
-      <div class="project-tags">
-        <span class="tag">Flutter</span>
-        <span class="tag">Dart</span>
-        <span class="tag">UI/UX</span>
+      <div class="project-image">
+        <img src="yasmina.jpg" alt="TODO Flutter" />
+      </div>
+      <div class="project-info">
+        <h3>TODO Flutter App</h3>
+        <p>Simple and elegant task manager built with Flutter following clean UI principles.</p>
+        <div class="project-tags">
+          <span>Flutter</span><span>Dart</span><span>UI/UX</span>
+        </div>
+        <a href="https://github.com/Yasmina504/TODO--flutter--Application" target="_blank" class="project-link">
+          <i class="fab fa-github"></i> View on GitHub
+        </a>
       </div>
     </div>
 
     <div class="project-card reveal">
-      <div class="project-icon">⚙️</div>
-      <h3>LAMP Stack Task</h3>
-      <p>Ansible playbook to install and configure a LAMP stack — automation & DevOps practice.</p>
-      <div class="project-tags">
-        <span class="tag">Ansible</span>
-        <span class="tag">Linux</span>
-        <span class="tag">DevOps</span>
+      <div class="project-image">
+        <img src="yasmina.jpg" alt="LAMP Stack" />
+      </div>
+      <div class="project-info">
+        <h3>LAMP Stack Automation</h3>
+        <p>Ansible playbook to install and configure a LAMP stack — automation & DevOps.</p>
+        <div class="project-tags">
+          <span>Ansible</span><span>Linux</span><span>DevOps</span>
+        </div>
+        <a href="https://github.com/Yasmina504/lamp-stack-task" target="_blank" class="project-link">
+          <i class="fab fa-github"></i> View on GitHub
+        </a>
       </div>
     </div>
 
   </div>
 </section>
 
-<!-- CONTACT -->
-<section id="contact">
-  <h2 class="section-title reveal">Get In Touch</h2>
-  <div class="contact-links">
+<!-- ===== Testimonials Section ===== -->
+<section id="testimonials" class="section">
+  <h2 class="section-title reveal">What <span>People Say</span></h2>
+  <div class="testimonials-container reveal">
+    <div class="testimonial-card active">
+      <div class="stars">⭐⭐⭐⭐⭐</div>
+      <p class="testimonial-text">
+        "A true professional and a great team player. Yasmina consistently delivers clean, well-architected code. Her knowledge of Flutter and modern UI practices is top-notch. A valuable asset to any development team."
+      </p>
+      <div class="testimonial-author">
+        <div class="author-avatar"><i class="fas fa-user"></i></div>
+        <div>
+          <h4>روان ماهر</h4>
+          <p>Project Team Member, NTI</p>
+        </div>
+      </div>
+    </div>
 
-    <a href="mailto:yasminaabdelkarim@gmail.com" class="contact-link reveal">
-      <span class="icon icon-gmail">
-        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-          <path d="M24 5.457v13.909c0 .904-.732 1.636-1.636 1.636h-3.819V11.73L12 16.64l-6.545-4.91v9.273H1.636A1.636 1.636 0 0 1 0 19.366V5.457c0-2.023 2.309-3.178 3.927-1.964L5.455 4.64 12 9.548l6.545-4.91 1.528-1.145C21.69 2.28 24 3.434 24 5.457z"/>
-        </svg>
-      </span>
-      <span>yasminaabdelkarim@gmail.com</span>
+    <div class="testimonial-card">
+      <div class="stars">⭐⭐⭐⭐⭐</div>
+      <p class="testimonial-text">
+        "Working with Yasmina was a smooth experience. She's dedicated, meets deadlines, and her Flutter apps are clean and well-organized. Highly recommended."
+      </p>
+      <div class="testimonial-author">
+        <div class="author-avatar"><i class="fas fa-user"></i></div>
+        <div>
+          <h4>ياسمين محمد</h4>
+          <p>Project Colleague, NTI</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="testimonial-card">
+      <div class="stars">⭐⭐⭐⭐⭐</div>
+      <p class="testimonial-text">
+        "Yasmina has strong problem-solving skills and a solid grasp of Flutter fundamentals. She communicates clearly and delivers quality work every time."
+      </p>
+      <div class="testimonial-author">
+        <div class="author-avatar"><i class="fas fa-user"></i></div>
+        <div>
+          <h4>زياد محمد</h4>
+          <p>Group Project Partner, NTI</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="testimonial-dots">
+      <span class="dot active" data-slide="0"></span>
+      <span class="dot" data-slide="1"></span>
+      <span class="dot" data-slide="2"></span>
+    </div>
+  </div>
+</section>
+
+<!-- ===== Services Section ===== -->
+<section id="services" class="section">
+  <h2 class="section-title reveal">My <span>Services</span></h2>
+  <div class="services-grid">
+
+    <div class="service-card reveal">
+      <i class="fas fa-mobile-alt"></i>
+      <h3>Flutter Mobile Apps</h3>
+      <p>Cross-platform mobile apps with native performance and beautiful UI.</p>
+    </div>
+
+    <div class="service-card reveal">
+      <i class="fas fa-code"></i>
+      <h3>Cross-Platform Development</h3>
+      <p>One codebase for both Android and iOS — faster, cheaper, smarter.</p>
+    </div>
+
+    <div class="service-card reveal">
+      <i class="fas fa-cloud"></i>
+      <h3>REST API Integration</h3>
+      <p>Connect your app to any backend with clean, reliable API calls.</p>
+    </div>
+
+    <div class="service-card reveal">
+      <i class="fas fa-fire"></i>
+      <h3>Firebase Backend</h3>
+      <p>Authentication, Firestore, Storage, and Notifications setup.</p>
+    </div>
+
+    <div class="service-card reveal">
+      <i class="fas fa-paint-brush"></i>
+      <h3>UI/UX Design</h3>
+      <p>Modern, responsive interfaces that users love to interact with.</p>
+    </div>
+
+    <div class="service-card reveal">
+      <i class="fas fa-tools"></i>
+      <h3>App Maintenance</h3>
+      <p>Updates, bug fixes, and improvements to keep your app running smooth.</p>
+    </div>
+
+    <div class="service-card reveal">
+      <i class="fas fa-bug"></i>
+      <h3>Bug Fixing</h3>
+      <p>Fast diagnosis and clean fixes for existing Flutter projects.</p>
+    </div>
+
+    <div class="service-card reveal">
+      <i class="fas fa-rocket"></i>
+      <h3>App Deployment</h3>
+      <p>Prepare and publish your app to Google Play and App Store.</p>
+    </div>
+
+  </div>
+</section>
+
+<!-- ===== Contact Section ===== -->
+<section id="contact" class="section">
+  <h2 class="section-title reveal">Get In <span>Touch</span></h2>
+  <div class="contact-grid">
+
+    <a href="https://wa.me/201080873812" target="_blank" class="contact-card reveal">
+      <div class="contact-icon whatsapp"><i class="fab fa-whatsapp"></i></div>
+      <h3>WhatsApp</h3>
+      <p>Quick replies on WhatsApp</p>
+      <span class="contact-btn">Message Me <i class="fas fa-arrow-right"></i></span>
     </a>
 
-    <a href="https://github.com/Yasmina504" target="_blank" class="contact-link reveal">
-      <span class="icon icon-github">
-        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-          <path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/>
-        </svg>
-      </span>
-      <span>github.com/Yasmina504</span>
+    <a href="mailto:yasminaabdelkarim@gmail.com" class="contact-card reveal">
+      <div class="contact-icon gmail"><i class="fas fa-envelope"></i></div>
+      <h3>Gmail</h3>
+      <p>Send me an email anytime</p>
+      <span class="contact-btn">Send Email <i class="fas fa-arrow-right"></i></span>
     </a>
 
-    <a href="https://linkedin.com/in/yasmina-abdelkarim" target="_blank" class="contact-link reveal">
-      <span class="icon icon-linkedin">
-        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-          <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
-        </svg>
-      </span>
-      <span>linkedin.com/in/yasmina-abdelkarim</span>
+    <a href="https://linkedin.com/in/yasmina-abdelkarim" target="_blank" class="contact-card reveal">
+      <div class="contact-icon linkedin"><i class="fab fa-linkedin-in"></i></div>
+      <h3>LinkedIn</h3>
+      <p>Let's connect professionally</p>
+      <span class="contact-btn">Connect <i class="fas fa-arrow-right"></i></span>
+    </a>
+
+    <a href="https://github.com/Yasmina504" target="_blank" class="contact-card reveal">
+      <div class="contact-icon github"><i class="fab fa-github"></i></div>
+      <h3>GitHub</h3>
+      <p>See my code and projects</p>
+      <span class="contact-btn">View Profile <i class="fas fa-arrow-right"></i></span>
     </a>
 
   </div>
 </section>
 
+<!-- ===== Footer ===== -->
 <footer>
-  © 2025 Yasmina Abdelkarim — Built with 💜
+  <div class="footer-logo">&lt;YA/&gt;</div>
+  <p>"Building digital experiences that make a difference."</p>
+  <div class="footer-socials">
+    <a href="https://github.com/Yasmina504" target="_blank"><i class="fab fa-github"></i></a>
+    <a href="https://linkedin.com/in/yasmina-abdelkarim" target="_blank"><i class="fab fa-linkedin-in"></i></a>
+    <a href="mailto:yasminaabdelkarim@gmail.com"><i class="fas fa-envelope"></i></a>
+  </div>
+  <p class="copyright">© 2025 Yasmina Abdelkarim — Built with 💜</p>
 </footer>
 
-<script>
-  // ===== Typewriter Effect =====
-  const words = ["Flutter Developer", "Mobile App Developer", "Cross-Platform Expert"];
-  const tw = document.getElementById('typewriter');
-  let wordIndex = 0, charIndex = 0, isDeleting = false;
+<!-- ===== Scroll to Top ===== -->
+<button id="scrollTop" class="scroll-top">
+  <i class="fas fa-arrow-up"></i>
+</button>
 
-  function type() {
-    const current = words[wordIndex];
-    tw.textContent = isDeleting
-      ? current.substring(0, charIndex--)
-      : current.substring(0, charIndex++);
-
-    let speed = isDeleting ? 60 : 120;
-
-    if (!isDeleting && charIndex === current.length + 1) {
-      speed = 1500; isDeleting = true;
-    } else if (isDeleting && charIndex === 0) {
-      isDeleting = false;
-      wordIndex = (wordIndex + 1) % words.length;
-      speed = 400;
-    }
-    setTimeout(type, speed);
-  }
-  type();
-
-  // ===== Scroll Reveal =====
-  const reveals = document.querySelectorAll('.reveal');
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach((entry, i) => {
-      if (entry.isIntersecting) {
-        setTimeout(() => entry.target.classList.add('active'), i * 80);
-        observer.unobserve(entry.target);
-      }
-    });
-  }, { threshold: 0.15 });
-  reveals.forEach(el => observer.observe(el));
-</script>
-
+<script src="script.js"></script>
 </body>
 </html>
