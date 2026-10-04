@@ -67,7 +67,6 @@ if (menuToggle && navLinks) {
     }
   });
 
-  // Close menu when link is clicked
   navLinks.querySelectorAll('a').forEach(link => {
     link.addEventListener('click', () => {
       navLinks.classList.remove('active');
@@ -164,14 +163,14 @@ function nextSlide() {
 }
 
 function startSlider() {
-  slideInterval = setInterval(nextSlide, 5000);
+  clearInterval(slideInterval);
+  slideInterval = setInterval(nextSlide, 4000);
 }
 
 function stopSlider() {
   clearInterval(slideInterval);
 }
 
-// Dot click
 dots.forEach((dot, index) => {
   dot.addEventListener('click', () => {
     stopSlider();
@@ -180,12 +179,10 @@ dots.forEach((dot, index) => {
   });
 });
 
-// Start slider
 if (testimonialCards.length > 0) {
   showSlide(0);
   startSlider();
   
-  // Pause on hover
   const container = document.querySelector('.testimonials-container');
   if (container) {
     container.addEventListener('mouseenter', stopSlider);
@@ -197,7 +194,6 @@ if (testimonialCards.length > 0) {
 const themeToggle = document.getElementById('themeToggle');
 const themeIcon = themeToggle ? themeToggle.querySelector('i') : null;
 
-// Check saved theme
 const savedTheme = localStorage.getItem('theme');
 if (savedTheme === 'light') {
   document.documentElement.setAttribute('data-theme', 'light');
@@ -232,10 +228,12 @@ if (themeToggle) {
 const scrollTopBtn = document.getElementById('scrollTop');
 
 window.addEventListener('scroll', () => {
-  if (window.scrollY > 400) {
-    scrollTopBtn.classList.add('visible');
-  } else {
-    scrollTopBtn.classList.remove('visible');
+  if (scrollTopBtn) {
+    if (window.scrollY > 400) {
+      scrollTopBtn.classList.add('visible');
+    } else {
+      scrollTopBtn.classList.remove('visible');
+    }
   }
 });
 
@@ -264,7 +262,6 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
 });
 
 // ===== Particles Background =====
-// Simple particle system without external library
 function createParticles() {
   const canvas = document.createElement('canvas');
   const container = document.getElementById('particles-js');
@@ -317,7 +314,6 @@ function createParticles() {
       p.draw();
     });
     
-    // Draw connections
     particles.forEach((p1, i) => {
       particles.slice(i + 1).forEach(p2 => {
         const dx = p1.x - p2.x;
@@ -346,7 +342,6 @@ function createParticles() {
   });
 }
 
-// Initialize particles
 if (document.getElementById('particles-js')) {
   createParticles();
 }
