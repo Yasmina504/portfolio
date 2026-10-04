@@ -1,5 +1,3 @@
-
-
 /* ============================================
    Yasmina Abdelkarim — Portfolio Styles
    ============================================ */
@@ -1249,4 +1247,9 @@ footer p {
   .hero-avatar { width: 220px; height: 220px; }
   .stats { grid-template-columns: 1fr; }
   .education-container { grid-template-columns: 1fr; }
-  .education-card { flex-direction: column;
+  .education-card { flex-direction: column; text-align: center; }
+  .edu-icon { margin: 0 auto; }
+  .timeline { padding-left: 2rem; }
+  .timeline-dot { left: -2rem; width: 24px; height: 24px; }
+  .cv-btn { padding: 0.5rem 1rem; font-size: 0.8rem; }
+}
